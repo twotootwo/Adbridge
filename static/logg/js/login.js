@@ -1,12 +1,7 @@
-// 버튼 요소 가져오기
-const button = document.getElementsByClassName('frame-34')[0]; // 첫 번째 요소 선택
+const button = document.getElementsByClassName('btn')
 
-// 버튼이 존재할 경우 이벤트 리스너 추가
-if(button){
-  button.addEventListener("click", () => {
-    // 버튼 클릭 시 hello.html로 이동
-    window.location.href = "/hello/"
+if(btn){
+  btn.addEventListener("click",()=>{
+      window.location.href = "/next/"
   });
 }
-
-
