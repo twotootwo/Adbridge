@@ -22,6 +22,14 @@ def index(request):
 def hello(request):
     return render(request, 'logg/hello.html')
 
+def inf(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+    return render(request, 'logg/inf.html')
+def adv(request):
+    if request.method == 'POST':
+        position = request.POST.get('position')
+    return render(request, 'logg/adv.html')
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -30,34 +38,44 @@ def login_view(request):
 
         try:
             user = User.objects.get(username=username)
+            print(user)
         except:
             messages.error(request, 'Username or password is incorrect')
-        user = authenticate(request, username=username, password=password,position = position)
+        user = authenticate(request, username=username, password=password)
         if user is not None :
+            if(user.position != position):
+                return render(request, 'logg/login.html')
             messages.success(request, 'You are now logged in')
             login(request,user)
-            return redirect('next/')
+            if(position=="influencer"):
+                return redirect('inf/')
+            else:
+                return redirect('adv/')
         else:
             messages.error(request, 'Username or password is incorrect')
     return render(request, 'logg/login.html')
 
 def sign_up(request):
     if request.method == 'POST':
-        username = request.POST.get('username', ' ')
-        password = request.POST.get('password', '')
-        confirm_password = request.POST.get('confirm_password', '')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
         email = request.POST.get('email', ' ')
-        nickname = request.POST.get('nickname', '')
-        field = request.POST.get('field', '')
-        position = request.POST.get('position', ' ')
-
+        nickname = request.POST.get('nickname')
+        field = request.POST.get('field')
+        position = request.POST.get('user_type')
+        if password != confirm_password:
+            return render(request, 'logg/sign_up.html')
         user = User.objects.create_user(
             username=username,
             position=position,
             password=password
         )
         user.save()
+        return redirect('/login/')
     return render(request, 'logg/sign_up.html')
+
+
 
 # 회원가입
 class RegisterView(generics.CreateAPIView):

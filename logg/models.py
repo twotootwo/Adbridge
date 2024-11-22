@@ -58,7 +58,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['password','position']
 
     def __str__(self):
-        return self.username
+        return self.username+" "+self.position
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)  # primary_key를 user의 pk로 설정
@@ -66,6 +66,7 @@ class Profile(models.Model):
     position = models.CharField(max_length=128)  # 광고주인지 인플루언서인지
     subjects = models.CharField(max_length=128)  # 관심사
     image = models.ImageField(upload_to='profile/', default='default.jpg')  # 이미지 등록
+    REQUIRED_FIELDS = ['nickname','position','subjects']
 
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):
