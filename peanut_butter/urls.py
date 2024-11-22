@@ -27,5 +27,6 @@ urlpatterns = [
     path('', views.hello, name='start_page'),
     path('register/', RegisterView.as_view()),
     path('login/', include('logg.urls')),
+
    # path('login/', CustomLoginView.as_view(),name='login'),
 ]

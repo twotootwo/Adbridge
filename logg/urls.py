@@ -10,4 +10,5 @@ urlpatterns = [
     path('sign-up/',views.sign_up,name="sign_up"),
     path('inf/',views.inf,name="inf"),
     path('adv/',views.adv,name="adv"),
+    path('postform/',views.postform,name="post_form"),
 ]

@@ -30,6 +30,10 @@ def adv(request):
     if request.method == 'POST':
         position = request.POST.get('position')
     return render(request, 'logg/adv.html')
+def postform(request):
+    if request.method == 'POST':
+        print(request.POST)
+    return render(request, 'logg/postform.html')
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
