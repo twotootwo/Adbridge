@@ -11,6 +11,10 @@ from .serializer import CreateUserSerializer, UpdateUserSerializer, AdvertiserPr
 from rest_framework import status
 
 
+def hello(request):
+    return render(request, 'logg/hello.html')
+
+
 class CreateUserAPI(CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CreateUserSerializer
