@@ -10,11 +10,11 @@ class Advertisement(models.Model):
         ('fashion', 'Fashion'), ('food', 'Food'), ('health', 'Health'), ('other', 'Other'),
     )
 
-    post_account = models.ForeignKey(CustomUser, on_delete=CASCADE, db_column="email_account")
+    post_account = models.ForeignKey(CustomUser, on_delete=CASCADE, blank=True)
     thumbnail = models.ImageField(upload_to='advertisement/', default='product.svg')
-    title = models.CharField(max_length=128)
-    name = models.CharField(max_length=128)
-    field = models.CharField(max_length=50, choices=FIELD_CHOICES)  #분야
+    title = models.CharField(max_length=128, blank=True)
+    name = models.CharField(max_length=128, blank=True)
+    field = models.CharField(max_length=50, choices=FIELD_CHOICES, blank=True)  #분야
     description = models.TextField(default='description of the product')
     min_budget = models.PositiveIntegerField(default=0)
     max_budget = models.PositiveIntegerField(default=0)

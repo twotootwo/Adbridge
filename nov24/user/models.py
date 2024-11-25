@@ -51,7 +51,7 @@ class CustomUser(AbstractBaseUser):
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.nickname
 
     def has_module_perms(self, app_label):
         return True
@@ -62,10 +62,10 @@ class CustomUser(AbstractBaseUser):
 
 class InfluencerProfile(models.Model):
     #user = models.OneToOneField(CustomUser, on_delete=CASCADE, primary_key=True)
-    post_account = models.ForeignKey(CustomUser, on_delete=CASCADE, db_column="email_account")
+    post_account = models.ForeignKey(CustomUser, on_delete=CASCADE, blank=True)
     thumbnail = models.ImageField(upload_to='profile/', default='product.svg')
-    contents = models.CharField(max_length=128)
-    method = models.CharField(max_length=128)
+    contents = models.CharField(max_length=128, blank=True)
+    method = models.CharField(max_length=128, blank=True)
     min_price = models.PositiveIntegerField(default=0)
     max_price = models.PositiveIntegerField(default=0)
     detail_1 = models.ImageField(upload_to='profile/', default='product.svg')
@@ -77,9 +77,9 @@ class InfluencerProfile(models.Model):
 
 
 class AdvertiserProfile(models.Model):
-    post_account = models.ForeignKey(CustomUser, on_delete=CASCADE, db_column="email_account")
+    post_account = models.ForeignKey(CustomUser, on_delete=CASCADE, blank=True)
     thumbnail = models.ImageField(upload_to='profile/', default='product.svg')
-    address = models.CharField(max_length=128)
+    address = models.CharField(max_length=128, blank=True)
     website = models.URLField(max_length=200, null=True, blank=True)
 
     def __str__(self):

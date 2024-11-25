@@ -23,8 +23,8 @@ class AllAdvertisementAPIView(APIView):
 
 class AdvertisementAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        instance = Advertisement.objects.get(id=pk)
+        account = kwargs.get('account')
+        instance = Advertisement.objects.get(post_account__nickname=account)
         serializer = AdvertisementSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             return Response({'data': serializer.data})
@@ -33,8 +33,8 @@ class AdvertisementAPIView(APIView):
 
 
     def put(self, request, *args, **kwargs): #update
-        pk = kwargs.get('pk')
-        instance = Advertisement.objects.get(id=pk)
+        account = kwargs.get('account')
+        instance = Advertisement.objects.get(post_account__nickname=account)
         serializer = AdvertisementSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -43,8 +43,8 @@ class AdvertisementAPIView(APIView):
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        instance = Advertisement.objects.get(id=pk)
+        account = kwargs.get('account')
+        instance = Advertisement.objects.get(post_account__nickname=account)
         instance.delete()
         return Response({'message': 'The object has been deleted'})
 

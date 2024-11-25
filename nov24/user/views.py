@@ -7,7 +7,7 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView
 from knox import views as knox_views
 from .models import AdvertiserProfile, InfluencerProfile, CustomUser
 from .serializer import CreateUserSerializer, UpdateUserSerializer, AdvertiserProfileSerializer, \
-    InfluencerProfileSerializer, LoginSerializer
+    InfluencerProfileSerializer, LoginSerializer, CreateAdvertiserProfileSerializer, CreateInfluencerProfileSerializer
 from rest_framework import status
 
 
@@ -20,9 +20,9 @@ class CreateUserAPI(CreateAPIView):
     serializer_class = CreateUserSerializer
     permission_classes = (AllowAny,)
 
-class UpdateUserAPI(UpdateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UpdateUserSerializer
+# class UpdateUserAPI(UpdateAPIView):
+#     queryset = CustomUser.objects.all()
+#     serializer_class = UpdateUserSerializer
 
 class LoginAPIView(knox_views.LoginView):
     permission_classes = (AllowAny,)
@@ -42,7 +42,7 @@ class LoginAPIView(knox_views.LoginView):
 class CreateAdvertiserProfileAPIView(APIView):
     def post(self, request, *args, **kwargs):
         print(request.data)
-        serializer = AdvertiserProfileSerializer(data= request.data)
+        serializer = CreateAdvertiserProfileSerializer(data= request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'data': serializer.data})
@@ -56,18 +56,17 @@ class CreateAdvertiserProfileAPIView(APIView):
 
 class AdvertiserProfileAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        instance = AdvertiserProfile.objects.get(id=pk)
-        serializer = AdvertiserProfileSerializer(instance=instance, data=request.data)
+        account = kwargs.get('account')
+        instance = AdvertiserProfile.objects.get(post_account__nickname=account)
+        serializer =  AdvertiserProfileSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             return Response({'data': serializer.data})
         else:
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-
     def put(self, request, *args, **kwargs): #update
-        pk = kwargs.get('pk')
-        instance = AdvertiserProfile.objects.get(id=pk)
+        account = kwargs.get('account')
+        instance = AdvertiserProfile.objects.get(post_account__nickname=account)
         serializer = AdvertiserProfileSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -76,11 +75,10 @@ class AdvertiserProfileAPIView(APIView):
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class CreateInfluencerProfileAPIView(APIView):
     def post(self, request, *args, **kwargs):
         print(request.data)
-        serializer = InfluencerProfileSerializer(data= request.data)
+        serializer = CreateInfluencerProfileSerializer(data= request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'data': serializer.data})
@@ -92,20 +90,21 @@ class CreateInfluencerProfileAPIView(APIView):
         return Response({'data': serializer.data})
 class InfluencerProfileAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        instance = InfluencerProfile.objects.get(id=pk)
+        account = kwargs.get('account')
+        instance = InfluencerProfile.objects.get(post_account__nickname=account)
         serializer = InfluencerProfileSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             return Response({'data': serializer.data})
         else:
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, *args, **kwargs): #update
-        pk = kwargs.get('pk')
-        instance = InfluencerProfile.objects.get(id=pk)
-        serializer = InfluencerProfileSerializer(instance=instance, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'data': serializer.data})
-        else:
-            return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+def put(self, request, *args, **kwargs): #update
+    account = kwargs.get('account')
+    instance = InfluencerProfile.objects.get(post_account__nickname=account)
+    serializer = InfluencerProfileSerializer(instance=instance, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'data': serializer.data})
+    else:
+        return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
