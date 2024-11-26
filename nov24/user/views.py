@@ -98,13 +98,13 @@ class InfluencerProfileAPIView(APIView):
         else:
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request, *args, **kwargs):  # update
+        account = kwargs.get('account')
+        instance = InfluencerProfile.objects.get(post_account__nickname=account)
+        serializer = InfluencerProfileSerializer(instance=instance, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data': serializer.data})
+        else:
+            return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-def put(self, request, *args, **kwargs): #update
-    account = kwargs.get('account')
-    instance = InfluencerProfile.objects.get(post_account__nickname=account)
-    serializer = InfluencerProfileSerializer(instance=instance, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'data': serializer.data})
-    else:
-        return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

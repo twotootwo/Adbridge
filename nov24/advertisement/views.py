@@ -1,21 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from user.models import CustomUser
 from .models import Advertisement
-from .serializer import AdvertisementSerializer
+from .serializer import AdvertisementSerializer, CreateAdvertisementSerializer
 from rest_framework import status
 
-class AllAdvertisementAPIView(APIView):
+class CreateAdvertisementAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        print(request.data)
-        serializer = AdvertisementSerializer(data= request.data)
+        print(request.user)
+        serializer = CreateAdvertisementSerializer(data= request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'data': serializer.data})
         else:
             return Response({'errors':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+class AllAdvertisementAPIView(APIView):
     def get(self, request, *args, **kwargs):
         qs = Advertisement.objects.all()
         serializer = AdvertisementSerializer(qs, many=True)

@@ -93,7 +93,5 @@ class CreateInfluencerProfileSerializer(serializers.ModelSerializer):
             'contents': {'required': True},
             'min_price': {'required': True},
             'max_price': {'required': True},
-            'detail_1': {'required': True},
-            'description': {'required': True},
-            'detail_2': {'required': True},
+            'description': {'required': True}
         }
