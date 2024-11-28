@@ -1,4 +1,4 @@
-/* 기본 스타일 초기화 */
+/*mypage.css */
 * {
   margin: 0;
   padding: 0;
@@ -36,6 +36,20 @@ header h2 {
   position: absolute;
   top: 35px;
   right: 40px;}
+
+/* textarea-box에 기본 폰트 스타일 적용 */
+.textarea-box {
+  font-family: Arial, sans-serif; /* 원하는 글씨체 */
+  font-size: 14px; /* 폰트 크기 */
+  color: #333; /* 글씨 색상 */
+}
+
+/* Placeholder 글씨체도 통일 */
+.textarea-box::placeholder {
+  font-family: Arial, sans-serif;
+  color: #aaa;
+}
+
 
 .main {
   padding: 20px;
@@ -240,28 +254,31 @@ header h2 {
 
   .image-box {
     position: relative;
+    align-items: center;
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .placeholder {
-    width: 100%;
-    height: 200px;
-    background-color: #e0e0e0;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+.placeholder {
+  width: 300px; /* 원하는 크기로 설정 */
+  height: 300px; /* 원하는 크기로 설정 */
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-  .placeholder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-  }
+.placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 원본 비율 유지 */
+  display: block; /* display를 block으로 설정 */
+}
+
+
 
   #image-upload {
     display: none;
