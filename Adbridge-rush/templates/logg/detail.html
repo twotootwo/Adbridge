@@ -26,13 +26,12 @@
                 <img src={{ad_data.thumbnail.url}} alt=static.img>
             </div>
             <div class="info-section">
-                <h2>광고 제목 {{ad_data.title}}</h2>
+                <h2>제목: {{ad_data.title}}</h2>
                 <ul>
                     <li><strong>광고 상품</strong>: {{ad_data.product_name}}</li>
-                    <li><strong>카테고리</strong>: {{ad_data.categroy}}</li>
+                    <li><strong>카테고리</strong>: {{ad_data.category}}</li>
                     <li><strong>SNS</strong>: {{ad_data.sns}}</li>
-                    <li><strong>광고 방법</strong>: {{ad_data.method}}</li>
-                    <li><strong>광고 금액</strong>: {{ad_data.min_budget}}~{{ad_data.max_budget}}</li>
+                    <li><strong>광고 금액</strong>: {{ad_data.min_budget}}원~{{ad_data.max_budget}}원</li>
                 </ul>
                 <div class="button-section">
                     <form name="form">
@@ -49,9 +48,10 @@
                     <img src={{ad_data.user.profile.img.url}} alt=static.img></img>
                 </div>
                 <div class="advertiser-text">
-                    <p>platform: {{ad_data.user.profile.platform}}</p>
+                    <p>이름: {{ad_data.user.username}}</p>
                     <p>주요 콘텐츠: {{ad_data.user.profile.content}}</p>
-                    <p>가격: {{ad_data.user.profile.min_budget}} ~ {{ad_data.user.profile.max_budget}}</p>
+                    <p>원하는 플랫폼: {{ad_data.user.profile.platform}}</p>
+                    <p>원하는 가격: {{ad_data.user.profile.min_budget}}원 ~ {{ad_data.user.profile.max_budget}}원</p>
                 </div>
             </div>
         </section>
@@ -66,6 +66,10 @@
             <p>{{ad_data.description}}</p>
         </footer>
     </main>
+    <footer class="footer">
+    <p>© 2024 AdBridge. All rights reserved.</p>
+    </footer>
+
 <script src="{% static 'logg/js/detailpageadver.js'%}"></script>
 </body>
 </html>
