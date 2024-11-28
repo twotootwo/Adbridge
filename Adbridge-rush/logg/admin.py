@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from logg.models import User, Advertisement
+from logg.models import User, Advertisement, Profile
 
 
 # Register your models here.
@@ -12,4 +12,9 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Advertisement)
 class AdvertisementAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'min_budget', 'max_budget','product_image')
+    pass
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user','img')
     pass

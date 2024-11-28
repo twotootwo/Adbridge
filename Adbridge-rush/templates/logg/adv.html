@@ -2,87 +2,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AdBridge Advertiser</title>
-  <link rel="stylesheet" href="{% static 'logg/css/adv.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBridge Advertiser</title>
+    <link rel="stylesheet" href="{% static 'logg/css/adv.css' %}">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">
-          <a href = "/login/adv/">
-            <h1>AdBridge <span>Advertiser</span></h1>
-          </a>
-      </div>
-      <nav>
-        <a href="/login/postform/">Post</a>
-        <a href="/mypage">My Page</a>
-      </nav>
-    </header>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <header class="sidebar-header">
+              <a href="/login/adv/">
+                <h1>AdBridge <span>Advertiser</span></h1>
+              </a>
 
-    <div class="ad-list">
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>인플루언서 1</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>인플루언서 2</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>인플루언서 3</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>인플루언서 4</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
-      <div class="ad-item">
-        <div class="ad-image"></div>
-        <p>광고 제목</p>
-        <p>패션</p>
-      </div>
+            </header>
+            <section class="filter-section">
+                <h2>Category</h2>
+                <ul>
+                    <li><label><input type="checkbox"> Cosmetic</label></li>
+                    <li><label><input type="checkbox"> Fashion</label></li>
+                    <li><label><input type="checkbox"> Food</label></li>
+                    <li><label><input type="checkbox"> Photo</label></li>
+                    <li><label><input type="checkbox"> Health</label></li>
+                    <li><label><input type="checkbox"> Other</label></li>
+                </ul>
+            </section>
+            <section class="filter-section">
+                <h2>Price</h2>
+                <ul>
+                    <li><label><input type="checkbox"> ~10만 원</label></li>
+                    <li><label><input type="checkbox"> 10~20만 원</label></li>
+                    <li><label><input type="checkbox"> 20~30만 원</label></li>
+                    <li><label><input type="checkbox"> 30~40만 원</label></li>
+                    <li><label><input type="checkbox"> 40~50만 원</label></li>
+                    <li><label><input type="checkbox"> 50만 원 이상</label></li>
+                </ul>
+            </section>
+            <section class="filter-section">
+                <h2>SNS</h2>
+                <ul>
+                    <li><label><input type="checkbox"> Instagram</label></li>
+                    <li><label><input type="checkbox"> Youtube</label></li>
+                    <li><label><input type="checkbox"> Other</label></li>
+                </ul>
+            </section>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="content-header">
+                <nav>
+                    <a href="/login/postform/" class="nav-link">Post</a>
+                    <a href="/login/mypage_adv/" class="nav-link">My Page</a>
+                </nav>
+            </header>
+            <section class="ad-list-section">
+    <ul class="ad-list">
+        {% for prof in profs %}
+            {% if prof.user.position == "influencer" %}
+                <li class="ad-item">
+                    <a href="{%url 'detailAdv' prof.pk %}">
+                        <!-- 이미지 추가 -->
+                        <div class="image-container">
+                            <img src="{{ prof.img.url }}" alt="Profile Image">
+                        </div>
+                    </a>
+                    <p class="ad-title">이름: {{ prof.user.username }}</p>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>
+
+        </main>
     </div>
-  </div>
 </body>
 </html>

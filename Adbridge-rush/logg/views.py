@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib import messages
-from logg.models import User, Advertisement
+from logg.models import User, Advertisement, Profile
 from logg.permissions import CustomReadOnly
 from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
@@ -20,11 +20,16 @@ from django.shortcuts import render
 from django.shortcuts import render
 from .models import Advertisement
 
-def ad_list_view(request):
+def ad_list_view_inf(request):
     ads = Advertisement.objects.all()  # Advertisement 테이블의 모든 데이터를 가져옴
     context = {'ads': ads}
     return render(request, 'logg/inf.html', context)
 
+#수정해야하는 부분
+def ad_list_view_adv(request):
+    profs = Profile.objects.all()
+    context = {'profs': profs}
+    return render(request, 'logg/adv.html', context)
 
 class StartView(TemplateView):
     template_name = 'logg/hello.html'
@@ -133,14 +138,114 @@ class SignupView(TemplateView):
         user.save()
         return redirect('/login/')
 
+class MypageView(TemplateView):
+    template_name = 'logg/mypage.html'
+    def get(self,request,*args, **kwargs):
+        try:
+            profile = Profile.objects.get(user=request.user)  # Profile 객체 가져오기
+        except Profile.DoesNotExist:
+            profile = None
+        context = super().get_context_data(**kwargs)
+        context['profile'] = profile
+        return self.render_to_response(context)
+    def post(self,request,*args, **kwargs):
+        user = request.user
+        profile = request.FILES.get('profile')
+        content = request.POST.get('category')
+        platform = request.POST.get('sns')
+        urls = request.POST.get('link')
+        min_budget = request.POST.get('min-budget')
+        max_budget = request.POST.get('max-budget')
+        text_box = request.POST.get('text-box')
 
+        prof, created = Profile.objects.get_or_create(
+            user=user,  # user를 기준으로 프로필 조회
+            defaults={
+                'img': profile,
+                'content': content,
+                'platform': platform,
+                'urls': urls,
+                'min_budget': min_budget,
+                'max_budget': max_budget,
+                'text_box': text_box,
+            }
+        )
+        #UPDATE
+        if not created:
+            if profile:
+                prof.img = profile
+            prof.content = content
+            prof.platform = platform
+            prof.urls = urls
+            prof.min_budget = min_budget
+            prof.max_budget = max_budget
+            prof.text_box = text_box
+            prof.save()
 
+        if(user.position=="influencer"):
+            return redirect("/login/inf/")
+        else:
+            return redirect("/login/adv/")
 
+#광고주 마이페이지
+class MypageViewAdv(TemplateView):
+    template_name = 'logg/mypage_adv.html'
+    def get(self,request,*args, **kwargs):
+        try:
+            profile = Profile.objects.get(user=request.user)  # Profile 객체 가져오기
+        except Profile.DoesNotExist:
+            profile = None
+        context = super().get_context_data(**kwargs)
+        context['profile'] = profile
+        return self.render_to_response(context)
+    def post(self,request,*args, **kwargs):
+        user = request.user
+        profile = request.FILES.get('profile')
+        content = request.POST.get('category')
+        platform = request.POST.get('sns')
+        min_budget = request.POST.get('min-budget')
+        max_budget = request.POST.get('max-budget')
+        text_box = request.POST.get('text-box')
 
-# # 회원가입
-# class RegisterView(generics.CreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = RegisterSerializer
+        prof, created = Profile.objects.get_or_create(
+            user=user,  # user를 기준으로 프로필 조회
+            defaults={
+                'img': profile,
+                'content': content,
+                'platform': platform,
+                'min_budget': min_budget,
+                'max_budget': max_budget,
+                'text_box': text_box,
+            }
+        )
+        #UPDATE
+        if not created:
+            if profile:
+                prof.img = profile
+            prof.content = content
+            prof.platform = platform
+            prof.urls = ''
+            prof.min_budget = min_budget
+            prof.max_budget = max_budget
+            prof.text_box = text_box
+            prof.save()
+
+        if(user.position=="influencer"):
+            return redirect("/login/inf/")
+        else:
+            return redirect("/login/adv/")
+#인플루언서 상세페이지
+def detailInf(request,id):
+    adv = get_object_or_404(Advertisement,id = id)
+    context = {'ad_data':adv }
+    return render(request,'logg/detail.html',context)
+
+#광고주 상세페이지
+def detailAdv(request,id):
+    inf = get_object_or_404(Profile,id = id)
+    context = {'inf_data': inf}
+    return render(request,'logg/detail_adv.html',context)
+
 
 
 # # 로그인

@@ -9,7 +9,10 @@
 </head>
 <body>
     <div class="container">
+        <!-- Sidebar -->
         <aside class="sidebar">
+
+
             <h2>Category</h2>
             <ul>
                 <li>
@@ -98,11 +101,12 @@
             </ul>
         </aside>
 
+        <!-- Main Content -->
         <main class="content">
-            <header class="header">
+            <header class="top-header">
                 <h1>AdBridge <span>Influencer</span></h1>
                 <nav>
-                    <a href="#" class="my-page-link">My Page</a>
+                    <a href="/login/mypage/" class="my-page-link">My Page</a>
                 </nav>
             </header>
 
@@ -110,9 +114,14 @@
                 <ul class="ad-list">
                     {% for ad in ads %}
                     <li class="ad-item">
-                        <img src="{{ ad.thumbnail.url }}" alt="{{ ad.title }}">
+                        <a href="{%url 'detailView' ad.pk %}">
+                            <img src="{{ ad.thumbnail.url }}" alt="{{ ad.title }}">
+                        </a>
+                        </img>
                         <p class="ad-title">광고주:{{ ad.title }}</p>
-                        <p class="ad-min_budget">금액 {{ ad.min_budget }}</p>
+                        <p class="ad-category">Category: {{ ad.category }}</p>
+                        <p class="ad-sns">SNS: {{ ad.sns }}</p>
+                        <p class="ad-budget">금액: {{ ad.min_budget }}원 - {{ad.max_budget}}원</p>
                     </li>
                     {% endfor %}
                 </ul>

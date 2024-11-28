@@ -27,5 +27,6 @@ urlpatterns = [
     path('', views.StartView.as_view(), name='start_page'),
     path('login/', include('logg.urls')),
 
+
    # path('login/', CustomLoginView.as_view(),name='login'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

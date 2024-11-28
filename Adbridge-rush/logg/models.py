@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template.defaultfilters import default
 
 
 # Create your models here.
@@ -75,17 +76,15 @@ class Advertisement(models.Model):
     max_budget = models.PositiveIntegerField(default=0)
     product_image = models.ImageField(upload_to='advertisement/', default='product.svg')
 
-
-
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(
-#             user=instance,
-#             nickname=f'User_{instance.id}',  # 기본 닉네임
-#             position='Undefined',          # 기본 포지션
-#             subjects='None',               # 기본 관심사
-#         )
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
+    img = models.ImageField(upload_to='profile/', default='product.svg')
+    platform = models.CharField(max_length=128,default='')
+    content = models.CharField(max_length=128,default='')
+    min_budget = models.PositiveIntegerField(default=0)
+    max_budget = models.PositiveIntegerField(default=0)
+    urls = models.CharField(max_length=100, default='')
+    text_box = models.CharField(max_length=512,default='')
 
 
 

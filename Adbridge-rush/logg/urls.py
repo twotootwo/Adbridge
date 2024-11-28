@@ -12,8 +12,13 @@ urlpatterns = [
     #path('next/', views.hello, name='hello'),
     path('sign-up/',views.SignupView.as_view(),name="sign_up"),
     #path('inf/',views.InfluenceView.as_view(),name="inf"),
-    path('inf/',views.ad_list_view,name="inf"),
-    path('adv/',views.AdvertiseView.as_view(),name="adv"),
+    path('inf/',views.ad_list_view_inf,name="inf"),
+    #path('adv/',views.AdvertiseView.as_view(),name="adv"),
+    path('adv/',views.ad_list_view_adv,name="adv"),
     path('postform/',views.PostingView.as_view(),name="post_form"),
+    path('details/<int:id>/', views.detailInf, name="detailView"),
+    path('details_adv/<int:id>/', views.detailAdv, name="detailAdv"),
+    path('mypage/',views.MypageView.as_view(),name="mypage"),
+    path('mypage_adv/',views.MypageViewAdv.as_view(),name="mypageAdv"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
