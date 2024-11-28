@@ -62,14 +62,20 @@
         {% for prof in profs %}
             {% if prof.user.position == "influencer" %}
                 <li class="ad-item">
-                    <a href="{%url 'detailAdv' prof.pk %}">
-                        <!-- 이미지 추가 -->
-                        <div class="image-container">
-                            <img src="{{ prof.img.url }}" alt="Profile Image">
-                        </div>
-                    </a>
-                    <p class="ad-title">이름: {{ prof.user.username }}</p>
-                </li>
+         <a href="{% url 'detailAdv' prof.pk %}">
+        <!-- 이미지 추가 -->
+        <div class="image-container">
+            <img src="{{ prof.img.url }}" alt="Profile Image">
+        </div>
+    </a>
+    <div class="text-container">
+        <p class="ad-title">이름: {{ prof.user.username }}</p>
+        <p class="ad-platform">플랫폼: {{ prof.platform }}</p>
+        <p class="ad-content">컨텐츠: {{ prof.content }}</p>
+        <p class="ad-budget">가격대: {{ prof.min_budget }}원 ~ {{ prof.max_budget }}원</p>
+    </div>
+</li>
+
             {% endif %}
         {% endfor %}
     </ul>
